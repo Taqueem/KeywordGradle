@@ -46,10 +46,11 @@ public class ExcelUtil {
 
 		cell = sheet.getRow(rowNum).getCell(colNum);
 		String cellValue = dataformat.formatCellValue(cell);
+		// System.out.println(cellValue);
 		return cellValue;
 	}
 
-	public int noOfCellsinColumn(int colNum) {
+	public int noOfNotEmptyCellsinColumn(int colNum) {
 
 		int numberofCells = 0;
 		try {
@@ -79,5 +80,21 @@ public class ExcelUtil {
 			}
 		}
 		return testcaseMap;
+	}
+
+	public Object[][] getTestCasesName() {
+
+		int noTestCases = noOfNotEmptyCellsinColumn(TestCaseMapper.TestCase);
+		int numberOfParameter = 1;
+		Object[][] testCases = new Object[noTestCases][numberOfParameter];
+		int lastRow = sheet.getLastRowNum();
+		int ci = 0, cj = 0;
+		for (int i = 1; i < lastRow; i++, ci++) {
+			String cellValue = getCellData(i, TestCaseMapper.TestCase);
+			if (!cellValue.isEmpty()) {
+				testCases[ci][cj] = i;
+			}
+		}
+		return testCases;
 	}
 }

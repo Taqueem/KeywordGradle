@@ -14,7 +14,7 @@ public class AutoPractice extends BaseTestClass {
 		System.out.println(sheet);
 		excelutil.createWorkBook(TestCaseMapper.excelPath);
 		excelutil.setSheet(sheet);
-		int a = excelutil.noOfCellsinColumn(0);
+		int a = excelutil.noOfNotEmptyCellsinColumn(0);
 		System.out.println(a);
 		testcaseMap = excelutil.getTestCaseMap(0);
 		Set<Integer> keySet = testcaseMap.keySet();
@@ -26,6 +26,17 @@ public class AutoPractice extends BaseTestClass {
 				performAction(testStepStarts, excelutil.getCellData(testStepStarts, TestCaseMapper.Keyword));
 				testStepStarts++;
 			}
+		}
+	}
+
+	@Test(dataProvider = "noOfTests")
+	public void Test2(int rowNum) {
+
+		System.out.println("Executing  test for " + testcaseMap.get(rowNum));
+		int testStepStarts = rowNum;
+		while (!(excelutil.getCellData(testStepStarts, TestCaseMapper.Keyword).isEmpty())) {
+			performAction(testStepStarts, excelutil.getCellData(testStepStarts, TestCaseMapper.Keyword));
+			testStepStarts++;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package util;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 
 import automationPractice.AutoPracticeHomePage;
 import automationPractice.AutoPracticeLoginPage;
@@ -29,6 +31,8 @@ public class BaseTestClass {
 	protected static AutoPracticeLoginPage	aploginPage	= new AutoPracticeLoginPage();
 
 	protected HashMap<Integer, String>		testcaseMap	= new HashMap<Integer, String>();
+
+	Set<Integer>							keySet;
 
 	protected static WebDriver getDriver() {
 
@@ -56,21 +60,22 @@ public class BaseTestClass {
 
 		getDriver();
 		initializePage();
+		setExcelFile();
 	}
 
-	protected <E> void explicitWait(int seconds, String condition, E generic) {
+	protected void explicitWait(int seconds, String condition, String generic) {
 
 		explicitWait = new WebDriverWait(getDriver(), seconds);
 		System.out.println("Value passed:" + generic);
 		switch (condition) {
 			case "titleContains" :
-				String title = (String) generic;
+				String title = generic;
 				explicitWait.until(ExpectedConditions.titleContains(title));
 				break;
-			case "visibilityOf" :
+			/*case "visibilityOf" :
 				WebElement element = (WebElement) generic;
 				explicitWait.until(ExpectedConditions.visibilityOf(element));
-				break;
+				break;*/
 			default :
 				break;
 		}
@@ -111,5 +116,34 @@ public class BaseTestClass {
 			default :
 				break;
 		}
+	}
+
+	protected void setExcelFile() {
+
+		String sheet = this.getClass().getSimpleName();
+		System.out.println(sheet);
+		excelutil.createWorkBook(TestCaseMapper.excelPath);
+		excelutil.setSheet(sheet);
+	}
+
+	@DataProvider(name = "noOfTests")
+	protected Object[][] getNoOfTests() {
+
+		/*String sheet = this.getClass().getSimpleName();
+		System.out.println(sheet);
+		excelutil.createWorkBook(TestCaseMapper.excelPath);
+		excelutil.setSheet(sheet);*/
+		Object[][] testData = null;
+		testcaseMap = excelutil.getTestCaseMap(0);
+		keySet = testcaseMap.keySet();
+		int timesOfRepeat = keySet.size();
+		int numOfParameter = 1;
+		testData = new Object[timesOfRepeat][numOfParameter];
+		int i = 0, j = 0;
+		for (Integer key : keySet) {
+			testData[i][j] = key;
+			i++;
+		}
+		return testData;
 	}
 }

@@ -20,7 +20,7 @@ public class FeatureA extends BaseTestClass {
 		System.out.println(sheet);
 		excelutil.createWorkBook(TestCaseMapper.excelPath);
 		excelutil.setSheet(sheet);
-		int a = excelutil.noOfCellsinColumn(0);
+		int a = excelutil.noOfNotEmptyCellsinColumn(0);
 		System.out.println(a);
 		testcaseMap = excelutil.getTestCaseMap(0);
 		Set<Integer> keySet = testcaseMap.keySet();
