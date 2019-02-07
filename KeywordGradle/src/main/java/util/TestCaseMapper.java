@@ -1,7 +1,7 @@
 package util;
 public class TestCaseMapper {
 
-	public static final String	excelPath	= "D:\\Projects\\JavaWorkSpace\\KeywordGradle\\src\\resources\\DataEngine.xlsx";
+	public static final String	excelPath	= "src\\resources\\DataEngine.xlsx";
 
 	public static final int		TestCase	= 0;
 

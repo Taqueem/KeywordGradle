@@ -13,23 +13,26 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 
 import automationPractice.AutoPracticeHomePage;
+import automationPractice.AutoPracticeLandingPage;
 import automationPractice.AutoPracticeLoginPage;
-import phpTravelPages.HomePage;
-import phpTravelPages.LoginPage;
+import phpTravelPages.PHPHomePage;
+import phpTravelPages.PHPLoginPage;
 public class BaseTestClass {
 
 	private static WebDriver				driver;
 
 	private static WebDriverWait			explicitWait;
 
-	protected static HomePage				homePage	= new HomePage();
+	protected static PHPHomePage				homePage	= new PHPHomePage();
 
-	protected static LoginPage				loginPage	= new LoginPage();
+	protected static PHPLoginPage				loginPage	= new PHPLoginPage();
 
 	protected static AutoPracticeHomePage	aphomePage	= new AutoPracticeHomePage();
 
 	protected static AutoPracticeLoginPage	aploginPage	= new AutoPracticeLoginPage();
 
+	protected static AutoPracticeLandingPage aplandingPage	= new AutoPracticeLandingPage(); 
+	
 	protected HashMap<Integer, String>		testcaseMap	= new HashMap<Integer, String>();
 
 	Set<Integer>							keySet;
@@ -38,7 +41,7 @@ public class BaseTestClass {
 
 		if (driver == null) {
 			System.setProperty("webdriver.gecko.driver",
-					"D:\\\\Selenium\\\\Driver\\\\geckodriver-v0.19.0-win64\\\\geckodriver.exe");
+					"src\\main\\resource\\driver\\geckodriver.exe");
 			driver = new FirefoxDriver();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
@@ -53,6 +56,7 @@ public class BaseTestClass {
 		PageFactory.initElements(getDriver(), aphomePage);
 		PageFactory.initElements(getDriver(), loginPage);
 		PageFactory.initElements(getDriver(), homePage);
+		
 	}
 
 	@BeforeTest
@@ -146,4 +150,13 @@ public class BaseTestClass {
 		}
 		return testData;
 	}
+protected void threadSleep(int Seconds)
+{
+	try {
+		Thread.sleep(3000);
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+}
+
 }
